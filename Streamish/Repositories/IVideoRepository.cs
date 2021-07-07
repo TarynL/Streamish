@@ -6,6 +6,7 @@ namespace Streamish.Repositories
     public interface IVideoRepository
     {
         List<Video> GetAll();
+        List<Video> GetAllWithComments();
         Video GetById(int id);
         void Add(Video video);
         void Delete(int id);
