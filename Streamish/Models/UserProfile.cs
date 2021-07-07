@@ -20,5 +20,7 @@ namespace Streamish.Models
 
         public List<Video> Videos { get; set; }
 
+        public List<Comment> Comments { get; set; }
+
     }
 }
