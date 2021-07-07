@@ -213,8 +213,10 @@ namespace Streamish.Repositories
 
                     Video video = null;
                     
-                    if (reader.Read())
+                    while(reader.Read())
                     {
+                        if (video == null)
+                        {
                             video = new Video()
                             {
                                 Id = id,
@@ -235,6 +237,7 @@ namespace Streamish.Repositories
 
 
                             };
+                        }
                             if (DbUtils.IsNotDbNull(reader, "CommentId"))
                             {
                                 video.Comments.Add(new Comment()
