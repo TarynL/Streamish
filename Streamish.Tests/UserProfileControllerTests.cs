@@ -75,6 +75,69 @@ namespace Streamish.Tests
             Assert.Equal(userCount + 1, repo.InternalData.Count);
         }
 
+        [Fact]
+        public void Put_Method_Updates_A_UserProfile()
+        {
+            // Arrange
+            var testUserProfileId = 77;
+            var userProfiles = CreateTestUsers(5);
+            userProfiles[0].Id = testUserProfileId; // Make sure we know the Id of one of the users
+
+            var repo = new InMemoryUserProfileRepository(userProfiles);
+            var controller = new UserProfileController(repo);
+
+            var userProfileToUpdate = new UserProfile()
+            {
+                Id = testUserProfileId,
+                Name = "Updated!",
+                Email = "Updated!",
+                DateCreated = DateTime.Today,
+                ImageUrl = "http://some.url",
+            };
+
+
+            // Act
+            controller.Put(testUserProfileId, userProfileToUpdate);
+
+            // Assert
+            var userProfileFromDb = repo.InternalData.FirstOrDefault(u => u.Id == testUserProfileId);
+            Assert.NotNull(userProfileFromDb);
+
+            Assert.Equal(userProfileToUpdate.Name, userProfileFromDb.Name);
+            Assert.Equal(userProfileToUpdate.Email, userProfileFromDb.Email);
+            Assert.Equal(userProfileToUpdate.DateCreated, userProfileFromDb.DateCreated);
+            Assert.Equal(userProfileToUpdate.ImageUrl, userProfileFromDb.ImageUrl);
+        }
+
+
+        [Fact]
+        public void Put_Method_Returns_BadRequest_When_Ids_Do_Not_Match()
+        {
+            // Arrange
+            var testUserProfileId = 77;
+            var userProfiles = CreateTestUsers(5);
+            userProfiles[0].Id = testUserProfileId; // Make sure we know the Id of one of the users
+
+            var repo = new InMemoryUserProfileRepository(userProfiles);
+            var controller = new UserProfileController(repo);
+
+            var userProfileToUpdate = new UserProfile()
+            {
+                Id = testUserProfileId,
+                Name = "Updated!",
+                Email = "Updated!",
+                DateCreated = DateTime.Today,
+                ImageUrl = "http://some.url",
+            };
+            var someOtherUserProfileId = testUserProfileId + 1; // make sure they aren't the same
+
+            // Act
+            var result = controller.Put(someOtherUserProfileId, userProfileToUpdate);
+
+            // Assert
+            Assert.IsType<BadRequestResult>(result);
+        }
+
 
         private List<UserProfile> CreateTestUsers(int count)
         {
