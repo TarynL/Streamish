@@ -138,6 +138,25 @@ namespace Streamish.Tests
             Assert.IsType<BadRequestResult>(result);
         }
 
+        [Fact]
+        public void Delete_Method_Removes_A_UserProfile()
+        {
+            //Arrange
+            var TestUserProfileId = 77;
+            var userProfiles = CreateTestUsers(5);
+            userProfiles[0].Id = TestUserProfileId;
+
+            var repo = new InMemoryUserProfileRepository(userProfiles);
+            var controller = new UserProfileController(repo);
+
+            //Act
+            controller.Delete(TestUserProfileId);
+
+            //Assert
+            var userProfileFromDb = repo.InternalData.FirstOrDefault(u => u.Id == TestUserProfileId);
+            Assert.Null(userProfileFromDb);
+        }
+
 
         private List<UserProfile> CreateTestUsers(int count)
         {
