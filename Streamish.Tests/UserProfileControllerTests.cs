@@ -50,7 +50,32 @@ namespace Streamish.Tests
             Assert.IsType<NotFoundResult>(result);
         }
 
-       
+        [Fact]
+        public void Post_Method_Adds_A_New_UserProfile()
+        {
+            // Arrange 
+            var userCount = 20;
+            var userProfiles = CreateTestUsers(userCount);
+
+            var repo = new InMemoryUserProfileRepository(userProfiles);
+            var controller = new UserProfileController(repo);
+
+            // Act
+            var newUser = new UserProfile()
+            {
+                Name = "Name",
+                Email = "Email",
+                ImageUrl = "http://youtube.url?v=1234",
+                DateCreated = DateTime.Today,
+            };
+
+            controller.Post(newUser);
+
+            // Assert
+            Assert.Equal(userCount + 1, repo.InternalData.Count);
+        }
+
+
         private List<UserProfile> CreateTestUsers(int count)
         {
             var userProfiles = new List<UserProfile>();
