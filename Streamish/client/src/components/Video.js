@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Card, CardBody } from "reactstrap";
 
 const Video = ({ video }) => {
@@ -14,11 +15,13 @@ const Video = ({ video }) => {
                     allowFullScreen />
 
                 <p>
-                    <strong>{video.title}</strong>
+                    <Link to={`/videos/${video.id}`}>
+                        <strong>{video.title}</strong>
+                    </Link>
                 </p>
                 <p>{video.description}</p>
                 <div>
-                    Comments: {video.comments?.map((message) => (<ul>{message.message}</ul>))}
+                    {video.comments?.map((message) => (<ul>{message.message}</ul>))}
                 </div>
             </CardBody>
         </Card>
