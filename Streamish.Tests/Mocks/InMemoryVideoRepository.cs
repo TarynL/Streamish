@@ -70,9 +70,12 @@ namespace Streamish.Tests.Mocks
         {
             return _data.FindAll(u => u.Title.Contains(criterion));
            
-
         }
 
+        //public List<Video> Hottest(DateTime criterion)
+        //{
+        //    return _data.FindAll(u => u.DateCreated >= criterion);
+        //}
         public List<Video> GetAllWithComments()
         {
             throw new NotImplementedException();

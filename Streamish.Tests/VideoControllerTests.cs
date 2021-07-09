@@ -199,6 +199,28 @@ namespace Streamish.Tests
 
             Assert.Equal(testVideo, actualVideos.Count);
         }
+        //[Fact]
+        //public void Hottest_Returns_Videos_Since()
+        //{
+        //    //Arrange 
+        //    var videoCount = 1;
+        //    var videos = CreateTestVideos(10);
+
+        //    var repo = new InMemoryVideoRepository(videos);
+        //    var controller = new VideoController(repo);
+
+        //    //Act
+        //    var result = controller.Hottest(DateTime.Today);
+
+        //    //Assert
+        //    var okResult = Assert.IsType<OkObjectResult>(result);
+        //    var actualVideos = Assert.IsType<List<Video>>(okResult.Value);
+
+        //    Assert.Equal(videoCount, actualVideos.Count);
+        //    Assert.Equal(videos, actualVideos);
+
+
+        //}
 
         private List<Video> CreateTestVideos(int count)
         {
