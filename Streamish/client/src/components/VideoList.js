@@ -4,7 +4,6 @@ import { getAllVideos, searchVideos } from "../modules/videoManager";
 
 const VideoList = () => {
     const [videos, setVideos] = useState([]);
-    const [search, setSearch] = useState([]);
 
     const getVideos = () => {
         getAllVideos().then(videos => setVideos(videos));
@@ -14,7 +13,7 @@ const VideoList = () => {
 
     const handleSearch = (evt) => {
         evt.preventDefault()
-        console.log(evt)
+
         let userInput = evt.target.value
         let searchMatch = {}
         searchMatch[evt.target.id] = userInput
