@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import { addVideo, getAllVideos } from "../modules/videoManager";
 
@@ -10,6 +11,7 @@ const VideoForm = () => {
     };
 
     const [video, setVideo] = useState(emptyVideo);
+    const history = useHistory();
 
     const handleInputChange = (evt) => {
         const value = evt.target.value;
@@ -24,10 +26,11 @@ const VideoForm = () => {
     const handleSave = (evt) => {
         evt.preventDefault();
 
-        addVideo(video).then(() => {
-            setVideo(emptyVideo);
-            getAllVideos();
+        addVideo(video).then((p) => {
+            // Navigate the user back to the home route
+            history.push("/");
         });
+
     };
 
     return (
