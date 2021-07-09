@@ -1,10 +1,14 @@
 const baseUrl = '/api/video';
 
 export const getAllVideos = () => {
-    return fetch(`${baseUrl} / getwithComments`)
+    return fetch(`${baseUrl}/getwithComments`)
         .then((res) => res.json())
 };
 
+export const searchVideos = (criteria, order) => {
+    return fetch(`${baseUrl}/Search?q=${criteria}&sortDesc=${order}`)
+        .then((res) => res.json())
+};
 
 export const addVideo = (video) => {
     return fetch(baseUrl, {
