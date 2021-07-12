@@ -23,3 +23,4 @@ export const addVideo = (video) => {
 export const getVideo = (id) => {
     return fetch(`${baseUrl}/${id}`).then((res) => res.json());
 };
+

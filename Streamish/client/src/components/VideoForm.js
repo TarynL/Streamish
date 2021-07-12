@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
-import { addVideo, getAllVideos } from "../modules/videoManager";
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { addVideo } from "../modules/videoManager";
 
 const VideoForm = () => {
     const emptyVideo = {
