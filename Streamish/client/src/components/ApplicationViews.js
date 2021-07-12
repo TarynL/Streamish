@@ -20,7 +20,7 @@ const ApplicationViews = () => {
                 <VideoDetails />
             </Route>
 
-            <Route path="/user/:id">
+            <Route path="/users/:id">
                 <UserVideoList />
 
             </Route>
