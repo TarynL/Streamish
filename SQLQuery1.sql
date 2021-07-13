@@ -1,0 +1,10 @@
+﻿Update TABLE [UserProfile] (
+  [Id] INTEGER PRIMARY KEY IDENTITY NOT NULL,
+  [FirebaseUserId] NVARCHAR(28) NOT NULL,
+  [Name] NVARCHAR(255) NOT NULL,
+  [Email] NVARCHAR(255) NOT NULL,
+  [ImageUrl] NVARCHAR(255) NULL,
+  [DateCreated] DATETiME NOT NULL,
+
+  CONSTRAINT UQ_FirebaseUserId UNIQUE(FirebaseUserId)
+)

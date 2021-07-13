@@ -11,6 +11,55 @@ namespace Streamish.Repositories
     public class UserProfileRepository : BaseRepository, IUserProfileRepository
     {
         public UserProfileRepository(IConfiguration configuration) : base(configuration) { }
+        public UserProfile GetByFirebaseUserId(string firebaseUserId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT Id,FirebaseUserId, Name AS UserProfileName, Email, ImageUrl, DateCreated
+                          FROM UserProfile
+                          WHERE FirebaseUserId = @FirebaseUserId
+                        ";
+                        //SELECT up.Id, Up.FirebaseUserId, up.Name AS UserProfileName, up.Email, up.UserTypeId,
+                        //       ut.Name AS UserTypeName
+                        //  FROM UserProfile up
+                        //       LEFT JOIN UserType ut on up.UserTypeId = ut.Id
+                        // WHERE FirebaseUserId = @FirebaseuserId
+
+
+                    DbUtils.AddParameter(cmd, "@FirebaseUserId", firebaseUserId);
+
+                    UserProfile userProfile = null;
+
+                    var reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        userProfile = new UserProfile()
+                        {
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
+                            Name = DbUtils.GetString(reader, "UserProfileName"),
+                            Email = DbUtils.GetString(reader, "Email"),
+                            ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
+                            DateCreated = DbUtils.GetDateTime(reader, "DateCreated"),
+
+                            //UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
+                            //UserType = new UserType()
+                            //{
+                            //    Id = DbUtils.GetInt(reader, "UserTypeId"),
+                            //    Name = DbUtils.GetString(reader, "UserTypeName"),
+                            //}
+                        };
+                    }
+                    reader.Close();
+
+                    return userProfile;
+                }
+            }
+        }
 
         public List<UserProfile> GetAll()
         {
@@ -181,10 +230,10 @@ namespace Streamish.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO UserProfile (Name, Email, DateCreated, ImageUrl)
+                        INSERT INTO UserProfile (FirebaseUserId,Name, Email, DateCreated, ImageUrl)
                         OUTPUT INSERTED.ID
-                        VALUES (@name, @email, @dateCreated, @imageUrl)";
-
+                        VALUES (@FirebaseUserId, @name, @email, @dateCreated, @imageUrl)";
+                    DbUtils.AddParameter(cmd, "@FirebaseUserId", userProfile.FirebaseUserId);
                     DbUtils.AddParameter(cmd, "@name", userProfile.Name);
                     DbUtils.AddParameter(cmd, "@email", userProfile.Email);
                     DbUtils.AddParameter(cmd, "@dateCreated", userProfile.DateCreated);
